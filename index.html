@@ -216,13 +216,12 @@
 
         if(result.success){
 
-          // simpan session sederhana
           localStorage.setItem("user", JSON.stringify(result.user));
 
           alert("Login berhasil, selamat datang " + result.user.name);
 
-          // redirect ke dashboard
-          window.location.href = "home.html";
+          window.location.href =
+          "https://minipos-cmd.github.io/safebyte/menu/dashboard/index.html";
 
         } else {
           alert(result.message || "Login gagal");
