@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Website Kanban</title>
+<title>Website Kanban Pro</title>
 
 <style>
 body{
@@ -13,15 +13,40 @@ body{
   color:white;
 }
 
+/* TOPBAR */
 .topbar{
-  padding:15px;
+  padding:12px;
   background:#111827;
   display:flex;
-  justify-content:space-between;
+  gap:10px;
   align-items:center;
   border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
+input{
+  padding:8px;
+  border-radius:8px;
+  border:none;
+  background:#1e293b;
+  color:white;
+  outline:none;
+}
+
+button{
+  padding:8px 10px;
+  border:none;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+/* BOARD */
 .board{
   display:flex;
   gap:15px;
@@ -29,159 +54,341 @@ body{
   overflow-x:auto;
 }
 
+/* COLUMN */
 .column{
-  min-width:280px;
+  min-width:270px;
   background:#111827;
-  padding:12px;
+  padding:10px;
   border-radius:12px;
-  height:fit-content;
+  border-top:4px solid #334155;
 }
 
-.column h3{
-  margin:0 0 10px;
-  font-size:14px;
-  color:#60a5fa;
-}
-
+/* CARD */
 .card{
   background:#1e293b;
   padding:10px;
   border-radius:10px;
   margin-bottom:10px;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.card:hover{
-  transform:translateY(-2px);
-  border:1px solid #3b82f6;
 }
 
 .url{
   font-size:12px;
   color:#94a3b8;
   word-break:break-all;
-  margin-top:4px;
 }
 
-.tag{
-  display:inline-block;
-  font-size:11px;
-  padding:3px 8px;
-  border-radius:999px;
+.select{
+  width:100%;
   margin-top:6px;
+  padding:6px;
+  border-radius:8px;
+  background:#0f172a;
+  color:white;
+  border:none;
+  outline:none;
+}
+
+/* ICON */
+.icon{
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  font-size:18px;
+  margin-left:6px;
+  transition:0.2s;
+}
+
+.icon:hover{
+  transform:scale(1.2);
+}
+
+/* ================= MODAL PREMIUM ================= */
+
+.modal-bg{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(8px);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  animation:fadeIn 0.2s ease;
+  z-index:999;
+}
+
+.modal{
+  background:linear-gradient(145deg,#111827,#0f172a);
+  padding:22px;
+  border-radius:16px;
+  width:330px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);
+  border:1px solid rgba(255,255,255,0.08);
+  transform:scale(0.9);
+  animation:popIn 0.25s ease forwards;
+}
+
+.modal h3{
+  margin:0 0 15px;
+  font-size:16px;
+}
+
+.modal input{
+  width:100%;
+  margin-bottom:10px;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  background:#1e293b;
+  color:white;
+}
+
+/* BUTTON GROUP */
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.modal button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.2s;
+}
+
+/* BUTTON STYLE */
+.btn-blue{
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  box-shadow:0 10px 20px rgba(37,99,235,0.3);
+}
+
+.btn-red{
+  background:linear-gradient(135deg,#ef4444,#dc2626);
+  box-shadow:0 10px 20px rgba(239,68,68,0.3);
+}
+
+.btn-gray{
   background:#334155;
 }
 
-.aktif{background:#16a34a;}
-.error{background:#ef4444;}
-.ads{background:#a855f7;}
-.utama{background:#2563eb;}
-.cadangan{background:#64748b;}
-
-button{
-  background:#2563eb;
-  border:none;
-  padding:8px 12px;
-  border-radius:8px;
-  color:white;
-  cursor:pointer;
+/* ANIMATION */
+@keyframes popIn{
+  from{transform:scale(0.85);opacity:0;}
+  to{transform:scale(1);opacity:1;}
 }
 
-button:hover{
-  background:#1d4ed8;
+@keyframes fadeIn{
+  from{opacity:0;}
+  to{opacity:1;}
 }
+
 </style>
 </head>
 
 <body>
 
 <div class="topbar">
-  <div>🌐 Website Kanban</div>
-  <button onclick="loadData()">Refresh</button>
+  <input id="name" placeholder="Nama">
+  <input id="url" placeholder="URL">
+  <input id="category" placeholder="Kategori">
+  <button onclick="addWebsite()">Tambah</button>
 </div>
 
 <div id="board" class="board"></div>
 
+<!-- EDIT MODAL -->
+<div id="editModal" class="modal-bg">
+  <div class="modal">
+    <h3>✏️ Edit Website</h3>
+    <input id="editName" placeholder="Nama">
+    <input id="editUrl" placeholder="URL">
+
+    <div class="modal-actions">
+      <button class="btn-gray" onclick="closeEdit()">Batal</button>
+      <button class="btn-blue" onclick="saveEdit()">Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div id="deleteModal" class="modal-bg">
+  <div class="modal">
+    <h3>🗑️ Hapus Website?</h3>
+    <p style="color:#94a3b8;font-size:13px;">
+      Data akan dihapus permanen.
+    </p>
+
+    <div class="modal-actions">
+      <button class="btn-gray" onclick="closeDelete()">Batal</button>
+      <button class="btn-red" onclick="confirmDelete()">Hapus</button>
+    </div>
+  </div>
+</div>
+
 <script>
 
-const API =
-"https://script.google.com/macros/s/AKfycbxx1Tk-KCJjFkwOkIitMkFrppnLsmehtGRlyEvC0aMhgqAzWcIgj6OV_RBDN1C7_rv4Mw/exec";
+const API = "https://script.google.com/macros/s/AKfycbxx1Tk-KCJjFkwOkIitMkFrppnLsmehtGRlyEvC0aMhgqAzWcIgj6OV_RBDN1C7_rv4Mw/exec";
 
-let websites = [];
+let data = [];
+let editId = null;
+let deleteId = null;
 
-async function loadData(){
+/* LOAD DATA */
+async function load(){
 
-  try {
+  const res = await fetch(API,{
+    method:"POST",
+    body:JSON.stringify({action:"getAll"})
+  });
 
-    const res = await fetch(API, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "getAll"
-      })
-    });
-
-    const json = await res.json();
-
-    if(!json.success){
-      alert("Gagal load data");
-      return;
-    }
-
-    websites = json.data;
-    renderBoard();
-
-  } catch(err){
-    console.error(err);
-    alert("Gagal koneksi ke server");
-  }
-
+  const json = await res.json();
+  data = json.data;
+  render();
 }
 
-function renderBoard(){
+/* RENDER */
+function render(){
 
   const board = document.getElementById("board");
   board.innerHTML = "";
 
   const grouped = {};
 
-  websites.forEach(w => {
-    if(!grouped[w.category]) grouped[w.category] = [];
-    grouped[w.category].push(w);
+  data.forEach(d=>{
+    if(!grouped[d.category]) grouped[d.category]=[];
+    grouped[d.category].push(d);
   });
 
-  Object.keys(grouped).forEach(cat => {
+  Object.keys(grouped).forEach(cat=>{
 
     const col = document.createElement("div");
-    col.className = "column";
+    col.className="column";
+    col.style.borderTop="4px solid #2563eb";
 
     col.innerHTML = `<h3>${cat}</h3>`;
 
-    grouped[cat].forEach(w => {
+    grouped[cat].forEach(w=>{
 
       const card = document.createElement("div");
-      card.className = "card";
-
-      card.onclick = () => {
-        window.open(w.url, "_blank");
-      };
+      card.className="card";
 
       card.innerHTML = `
-        <div><b>${w.name}</b></div>
+        <b>${w.name}</b>
         <div class="url">${w.url}</div>
-        <div class="tag ${w.status?.toLowerCase()}">${w.status}</div>
+
+        <select class="select" onchange="move('${w.id}',this.value)">
+          ${Object.keys(grouped).map(c=>`
+            <option ${c==cat?"selected":""}>${c}</option>
+          `).join("")}
+        </select>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;">
+          <small>${w.status || ""}</small>
+
+          <div>
+            <button class="icon" onclick="openEdit('${w.id}')">✏️</button>
+            <button class="icon" onclick="openDelete('${w.id}')">🗑️</button>
+          </div>
+        </div>
       `;
 
       col.appendChild(card);
     });
 
     board.appendChild(col);
-
   });
-
 }
 
-loadData();
+/* ADD */
+async function addWebsite(){
+
+  await fetch(API,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"add",
+      name:document.getElementById("name").value,
+      url:document.getElementById("url").value,
+      category:document.getElementById("category").value
+    })
+  });
+
+  load();
+}
+
+/* MOVE */
+async function move(id,category){
+
+  await fetch(API,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"update",
+      id,
+      category
+    })
+  });
+
+  load();
+}
+
+/* EDIT */
+function openEdit(id){
+  editId = id;
+  const item = data.find(x=>x.id==id);
+
+  document.getElementById("editName").value = item.name;
+  document.getElementById("editUrl").value = item.url;
+
+  document.getElementById("editModal").style.display="flex";
+}
+
+function closeEdit(){
+  document.getElementById("editModal").style.display="none";
+}
+
+async function saveEdit(){
+
+  await fetch(API,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"update",
+      id:editId,
+      name:document.getElementById("editName").value,
+      url:document.getElementById("editUrl").value
+    })
+  });
+
+  closeEdit();
+  load();
+}
+
+/* DELETE */
+function openDelete(id){
+  deleteId = id;
+  document.getElementById("deleteModal").style.display="flex";
+}
+
+function closeDelete(){
+  document.getElementById("deleteModal").style.display="none";
+}
+
+async function confirmDelete(){
+
+  await fetch(API,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"delete",
+      id:deleteId
+    })
+  });
+
+  closeDelete();
+  load();
+}
+
+load();
 
 </script>
 
