@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Website Kanban</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0f172a;
+  color:white;
+}
+
+.topbar{
+  padding:15px;
+  background:#111827;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.board{
+  display:flex;
+  gap:15px;
+  padding:15px;
+  overflow-x:auto;
+}
+
+.column{
+  min-width:280px;
+  background:#111827;
+  padding:12px;
+  border-radius:12px;
+  height:fit-content;
+}
+
+.column h3{
+  margin:0 0 10px;
+  font-size:14px;
+  color:#60a5fa;
+}
+
+.card{
+  background:#1e293b;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.card:hover{
+  transform:translateY(-2px);
+  border:1px solid #3b82f6;
+}
+
+.url{
+  font-size:12px;
+  color:#94a3b8;
+  word-break:break-all;
+  margin-top:4px;
+}
+
+.tag{
+  display:inline-block;
+  font-size:11px;
+  padding:3px 8px;
+  border-radius:999px;
+  margin-top:6px;
+  background:#334155;
+}
+
+.aktif{background:#16a34a;}
+.error{background:#ef4444;}
+.ads{background:#a855f7;}
+.utama{background:#2563eb;}
+.cadangan{background:#64748b;}
+
+button{
+  background:#2563eb;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div>🌐 Website Kanban</div>
+  <button onclick="loadData()">Refresh</button>
+</div>
+
+<div id="board" class="board"></div>
+
+<script>
+
+const API =
+"https://script.google.com/macros/s/AKfycbxx1Tk-KCJjFkwOkIitMkFrppnLsmehtGRlyEvC0aMhgqAzWcIgj6OV_RBDN1C7_rv4Mw/exec";
+
+let websites = [];
+
+async function loadData(){
+
+  try {
+
+    const res = await fetch(API, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "getAll"
+      })
+    });
+
+    const json = await res.json();
+
+    if(!json.success){
+      alert("Gagal load data");
+      return;
+    }
+
+    websites = json.data;
+    renderBoard();
+
+  } catch(err){
+    console.error(err);
+    alert("Gagal koneksi ke server");
+  }
+
+}
+
+function renderBoard(){
+
+  const board = document.getElementById("board");
+  board.innerHTML = "";
+
+  const grouped = {};
+
+  websites.forEach(w => {
+    if(!grouped[w.category]) grouped[w.category] = [];
+    grouped[w.category].push(w);
+  });
+
+  Object.keys(grouped).forEach(cat => {
+
+    const col = document.createElement("div");
+    col.className = "column";
+
+    col.innerHTML = `<h3>${cat}</h3>`;
+
+    grouped[cat].forEach(w => {
+
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.onclick = () => {
+        window.open(w.url, "_blank");
+      };
+
+      card.innerHTML = `
+        <div><b>${w.name}</b></div>
+        <div class="url">${w.url}</div>
+        <div class="tag ${w.status?.toLowerCase()}">${w.status}</div>
+      `;
+
+      col.appendChild(card);
+    });
+
+    board.appendChild(col);
+
+  });
+
+}
+
+loadData();
+
+</script>
+
+</body>
+</html>
