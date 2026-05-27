@@ -22,7 +22,6 @@
     }
 
     /* SIDEBAR */
-
     .sidebar{
       width:260px;
       background:#111827;
@@ -57,10 +56,10 @@
 
     .menu button:hover{
       background:#2563eb;
+      transform:translateX(4px);
     }
 
     /* MAIN */
-
     .main{
       flex:1;
       display:flex;
@@ -68,7 +67,6 @@
     }
 
     /* TOPBAR */
-
     .topbar{
       height:70px;
       border-bottom:1px solid rgba(255,255,255,0.08);
@@ -101,7 +99,6 @@
     }
 
     /* CONTENT */
-
     .content{
       padding:25px;
       overflow-y:auto;
@@ -112,8 +109,7 @@
       margin-bottom:20px;
     }
 
-    /* FOLDER GRID */
-
+    /* GRID */
     .grid{
       display:grid;
       grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
@@ -139,17 +135,12 @@
       margin-bottom:15px;
     }
 
-    .card h3{
-      margin-bottom:8px;
-    }
-
     .card p{
       color:#94a3b8;
       font-size:14px;
     }
 
-    /* QUICK NOTES */
-
+    /* NOTES */
     .notes{
       margin-top:35px;
     }
@@ -168,22 +159,10 @@
       font-size:14px;
     }
 
-    /* MOBILE */
-
     @media(max-width:768px){
-
-      .sidebar{
-        display:none;
-      }
-
-      .search{
-        width:180px;
-      }
-
-      .title{
-        font-size:22px;
-      }
-
+      .sidebar{display:none;}
+      .search{width:180px;}
+      .title{font-size:22px;}
     }
 
   </style>
@@ -192,109 +171,104 @@
 <body>
 
   <!-- SIDEBAR -->
-
   <div class="sidebar">
-
-    <div class="logo">
-      🗄️ My Storage
-    </div>
+    <div class="logo">🗄️ My Storage</div>
 
     <div class="menu">
-      <button>📁 Semua File</button>
-      <button>🔐 Password</button>
-      <button>💻 Coding</button>
-      <button>📅 Jadwal</button>
-      <button>🌐 Link Penting</button>
-      <button>📝 Catatan</button>
-      <button>⭐ Favorit</button>
-      <button>🗑️ Sampah</button>
+      <button onclick="go('all')">📁 Semua File</button>
+      <button onclick="go('password')">🔐 Password</button>
+      <button onclick="go('coding')">💻 Coding</button>
+      <button onclick="go('jadwal')">📅 Jadwal</button>
+      <button onclick="go('website')">🌐 Link Penting</button>
+      <button onclick="go('note')">📝 Catatan</button>
+      <button onclick="go('favorit')">⭐ Favorit</button>
+      <button onclick="go('sampah')">🗑️ Sampah</button>
+      <button onclick="go('file')">📁 Dokumen</button>
+      <button onclick="go('fastfile')">⚡ Quick Note</button>
     </div>
-
   </div>
 
   <!-- MAIN -->
-
   <div class="main">
 
-    <!-- TOPBAR -->
-
     <div class="topbar">
-
-      <input 
-        type="text" 
-        class="search"
-        placeholder="Cari file, catatan, password..."
-      >
-
-      <div class="user">
-        A
-      </div>
-
+      <input type="text" class="search" placeholder="Cari file, catatan, password...">
+      <div class="user">A</div>
     </div>
-
-    <!-- CONTENT -->
 
     <div class="content">
 
-      <div class="title">
-        Dashboard Penyimpanan
-      </div>
-
-      <!-- FOLDER -->
+      <div class="title">Dashboard Penyimpanan</div>
 
       <div class="grid">
 
-        <div class="card">
+        <div class="card" onclick="go('password')">
           <div class="icon">🔐</div>
           <h3>Password</h3>
           <p>Simpan akun & password penting</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="go('coding')">
           <div class="icon">💻</div>
           <h3>Code Snippet</h3>
           <p>Simpan script dan coding</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="go('jadwal')">
           <div class="icon">📅</div>
           <h3>Jadwal</h3>
           <p>Catatan agenda & reminder</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="go('website')">
           <div class="icon">🌐</div>
           <h3>Link Penting</h3>
           <p>Kumpulan website favorit</p>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="go('file')">
           <div class="icon">📁</div>
           <h3>Dokumen</h3>
           <p>PDF, ZIP, gambar dan file</p>
         </div>
 
-        <div class="card">
-          <div class="icon">📝</div>
+        <div class="card" onclick="go('fastfile')">
+          <div class="icon">⚡</div>
           <h3>Quick Notes</h3>
           <p>Catatan cepat harian</p>
         </div>
 
       </div>
 
-      <!-- NOTES -->
-
       <div class="notes">
-
         <h2>📝 Catatan Cepat</h2>
-
         <textarea placeholder="Tulis sesuatu di sini..."></textarea>
-
       </div>
 
     </div>
-
   </div>
+
+<script>
+
+function go(page){
+
+  const routes = {
+    all: "https://minipos-cmd.github.io/safebyte/menu/allfile/index.html",
+    password: "https://minipos-cmd.github.io/safebyte/menu/password/index.html",
+    coding: "https://minipos-cmd.github.io/safebyte/menu/coding/index.html",
+    jadwal: "https://minipos-cmd.github.io/safebyte/menu/jadwal/index.html",
+    website: "https://minipos-cmd.github.io/safebyte/menu/website/index.html",
+    note: "https://minipos-cmd.github.io/safebyte/menu/note/index.html",
+    favorit: "https://minipos-cmd.github.io/safebyte/menu/favorit/index.html",
+    sampah: "https://minipos-cmd.github.io/safebyte/menu/note/index.html",
+    file: "https://minipos-cmd.github.io/safebyte/menu/file/index.html",
+    fastfile: "https://minipos-cmd.github.io/safebyte/menu/fastfile/index.html"
+  };
+
+  window.location.href = routes[page];
+}
+
+</script>
 
 </body>
 </html>
