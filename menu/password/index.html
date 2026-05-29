@@ -10,574 +10,459 @@
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Segoe UI',sans-serif;
-}
-
 body{
+margin:0;
+font-family:Segoe UI;
 background:#071327;
 color:white;
-padding:30px;
+padding:20px;
+}
+
+/* BACK */
+.back{
+display:inline-block;
+margin-bottom:10px;
+color:#93c5fd;
+text-decoration:none;
 }
 
 /* HEADER */
-
-.page-header{
+.header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-margin-bottom:25px;
-}
-
-.page-title h1{
-font-size:32px;
-margin-bottom:5px;
-}
-
-.page-title p{
-color:#8da2c0;
+margin-bottom:15px;
 }
 
 .add-btn{
 background:#2563eb;
 border:none;
 color:white;
-padding:12px 22px;
-border-radius:12px;
+padding:10px 15px;
+border-radius:10px;
 cursor:pointer;
-font-size:15px;
-transition:.3s;
-}
-
-.add-btn:hover{
-background:#1d4ed8;
 }
 
 /* STATS */
-
 .stats{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:18px;
-margin-bottom:25px;
-}
-
-.stat-card{
-background:#16233f;
-padding:22px;
-border-radius:18px;
-}
-
-.stat-card i{
-font-size:28px;
-color:#60a5fa;
-margin-bottom:12px;
-}
-
-.stat-card h2{
-font-size:28px;
-}
-
-.stat-card span{
-color:#8da2c0;
-}
-
-/* SEARCH */
-
-.toolbar{
-display:flex;
-gap:15px;
-margin-bottom:20px;
-flex-wrap:wrap;
-}
-
-.search-box{
-flex:1;
-}
-
-.search-box input{
-width:100%;
-padding:14px;
-background:#16233f;
-border:none;
-outline:none;
-border-radius:12px;
-color:white;
-}
-
-.filter{
-display:flex;
+grid-template-columns:repeat(3,1fr);
 gap:10px;
-flex-wrap:wrap;
-}
-
-.filter button{
-padding:12px 16px;
-border:none;
-border-radius:10px;
-background:#16233f;
-color:white;
-cursor:pointer;
-}
-
-.filter button.active{
-background:#2563eb;
-}
-
-/* PASSWORD GRID */
-
-.password-grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-gap:20px;
-}
-
-.password-card{
-background:#16233f;
-border-radius:18px;
-padding:20px;
-transition:.3s;
-cursor:pointer;
-border:1px solid transparent;
-}
-
-.password-card:hover{
-transform:translateY(-5px);
-border-color:#2563eb;
-}
-
-.card-top{
-display:flex;
-justify-content:space-between;
-align-items:center;
 margin-bottom:15px;
 }
 
-.site-icon{
-width:45px;
-height:45px;
+.stat{
+background:#16233f;
+padding:12px;
 border-radius:12px;
-background:#223353;
+}
+
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+gap:15px;
+}
+
+/* CARD FIXED HEIGHT STRUCTURE */
+.card{
+background:#16233f;
+padding:15px;
+border-radius:15px;
+
 display:flex;
-justify-content:center;
-align-items:center;
-font-size:20px;
+flex-direction:column;
+justify-content:space-between;
+
+min-height:160px;
 }
 
-.category{
-font-size:12px;
-background:#223353;
-padding:5px 10px;
-border-radius:20px;
-color:#8da2c0;
-}
-
-.site-name{
-font-size:18px;
-font-weight:600;
-margin-bottom:5px;
+.name{
+font-weight:bold;
 }
 
 .email{
-color:#8da2c0;
-font-size:14px;
-margin-bottom:15px;
+color:#9ca3af;
+font-size:13px;
 }
 
-.password{
-letter-spacing:3px;
-margin-bottom:20px;
+/* FIX AREA PASSWORD */
+.pass{
+margin:10px 0;
+color:#9ca3af;
 }
 
-.card-actions{
+/* ACTION FIX ALWAYS BOTTOM */
+.actions{
 display:flex;
-gap:10px;
+gap:8px;
+margin-top:auto;
 }
 
-.action-btn{
+.actions button{
 flex:1;
-padding:10px;
-border:none;
-border-radius:10px;
 background:#223353;
+border:none;
+padding:8px;
+border-radius:8px;
 color:white;
 cursor:pointer;
-transition:.3s;
 }
 
-.action-btn:hover{
-background:#2f4670;
+/* TOAST */
+.toast{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#1f2937;
+padding:10px 15px;
+border-radius:10px;
+opacity:0;
+transform:translateY(20px);
+transition:.25s ease;
+font-size:13px;
+pointer-events:none;
+}
+
+.toast.show{
+opacity:1;
+transform:translateY(0);
+}
+
+/* LOADING */
+.loading{
+text-align:center;
+color:#9ca3af;
+margin:20px 0;
+}
+
+/* OVERLAY */
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.5);
+opacity:0;
+visibility:hidden;
+transition:.25s ease;
+}
+
+.overlay.show{
+opacity:1;
+visibility:visible;
+}
+
+/* SLIDER */
+.slider{
+position:fixed;
+top:0;
+right:-400px;
+width:360px;
+height:100%;
+background:#16233f;
+padding:20px;
+transition:.35s cubic-bezier(.22,1,.36,1);
+}
+
+.slider.show{
+right:0;
+}
+
+.eye{
+background:#223353;
+color:white;
+padding:10px;
+border:none;
+border-radius:8px;
+margin-top:10px;
+cursor:pointer;
+}
+
+/* COPY INLINE BUTTON */
+.copy-inline{
+background:#2563eb;
+border:none;
+color:white;
+padding:5px 8px;
+border-radius:6px;
+font-size:12px;
+cursor:pointer;
+margin-left:8px;
 }
 
 /* MODAL */
-
 .modal{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.6);
-display:none;
+display:flex;
 justify-content:center;
 align-items:center;
-backdrop-filter:blur(4px);
+background:rgba(0,0,0,.6);
+opacity:0;
+visibility:hidden;
+transition:.25s ease;
 }
 
-.modal.active{
-display:flex;
-animation:fade .3s ease;
+.modal.show{
+opacity:1;
+visibility:visible;
 }
 
-.modal-content{
-width:500px;
+.box{
 background:#16233f;
-padding:25px;
-border-radius:20px;
-animation:popup .3s ease;
+padding:20px;
+border-radius:12px;
+width:300px;
+transform:translateY(15px) scale(.95);
+transition:.25s ease;
 }
 
-.modal-content h2{
-margin-bottom:20px;
+.modal.show .box{
+transform:translateY(0) scale(1);
 }
 
-.form-group{
-margin-bottom:15px;
-}
-
-.form-group label{
-display:block;
-margin-bottom:8px;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select{
+input,textarea{
 width:100%;
-padding:13px;
+margin-bottom:10px;
+padding:10px;
+border:none;
+border-radius:8px;
 background:#223353;
-border:none;
-border-radius:10px;
-color:white;
-}
-
-.modal-footer{
-display:flex;
-justify-content:flex-end;
-gap:10px;
-margin-top:20px;
-}
-
-.btn{
-padding:12px 18px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-}
-
-.cancel{
-background:#475569;
 color:white;
 }
 
 .save{
 background:#2563eb;
 color:white;
-}
-
-/* DETAIL PANEL */
-
-.detail-panel{
-position:fixed;
-top:0;
-right:-420px;
-width:400px;
-height:100%;
-background:#16233f;
-padding:25px;
-transition:.35s;
-z-index:99;
-}
-
-.detail-panel.active{
-right:0;
-}
-
-.detail-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
-}
-
-.detail-section{
-margin-bottom:20px;
-}
-
-.detail-section label{
-display:block;
-color:#8da2c0;
-margin-bottom:5px;
-}
-
-.detail-value{
-background:#223353;
-padding:12px;
-border-radius:10px;
-}
-
-.detail-actions{
-display:flex;
-gap:10px;
-margin-top:25px;
-}
-
-.edit-btn{
-flex:1;
-background:#22c55e;
-color:white;
 border:none;
-padding:12px;
-border-radius:10px;
+padding:10px;
+width:100%;
+border-radius:8px;
 cursor:pointer;
-}
-
-.delete-btn{
-flex:1;
-background:#ef4444;
-color:white;
-border:none;
-padding:12px;
-border-radius:10px;
-cursor:pointer;
-}
-
-@keyframes popup{
-from{
-transform:scale(.8);
-opacity:0;
-}
-to{
-transform:scale(1);
-opacity:1;
-}
-}
-
-@keyframes fade{
-from{opacity:0;}
-to{opacity:1;}
 }
 
 </style>
 </head>
+
 <body>
 
-<div class="page-header">
+<a class="back" href="https://minipos-cmd.github.io/safebyte/menu/dashboard/index.html">
+← Dashboard
+</a>
 
-<div class="page-title">
+<div class="header">
 <h1>🔐 Password Manager</h1>
-<p>Simpan akun dan password penting dengan aman</p>
-</div>
-
-<button class="add-btn" onclick="openModal()">
-<i class="fas fa-plus"></i>
-Tambah Password
-</button>
-
+<button class="add-btn" onclick="openAdd()">+ Tambah Password</button>
 </div>
 
 <div class="stats">
-
-<div class="stat-card">
-<i class="fas fa-lock"></i>
-<h2>128</h2>
-<span>Total Password</span>
+<div class="stat">Total Password: <b id="totalPw">0</b></div>
+<div class="stat">Kategori: <b id="totalCat">0</b></div>
+<div class="stat">Terakhir: <b id="lastAdd">-</b></div>
 </div>
 
-<div class="stat-card">
-<i class="fas fa-folder"></i>
-<h2>8</h2>
-<span>Kategori</span>
+<!-- LOADING STATE -->
+<div id="loading" class="loading">⏳ Mengambil data dari server...</div>
+
+<div class="grid" id="grid"></div>
+
+<div id="toast" class="toast"></div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSlider()"></div>
+
+<!-- SLIDER -->
+<div class="slider" id="slider">
+
+<h2 id="sTitle"></h2>
+<p id="sUser"></p>
+
+<!-- PASSWORD + COPY INLINE -->
+<div style="display:flex;align-items:center;">
+<p id="sPass">******</p>
+<button class="copy-inline" onclick="copySliderPass()">copy</button>
 </div>
 
-<div class="stat-card">
-<i class="fas fa-clock"></i>
-<h2>2 Hari</h2>
-<span>Terakhir Ditambah</span>
-</div>
+<button class="eye" onclick="togglePass()">👁 Show / Hide</button>
 
-</div>
+<p id="sNotes"></p>
 
-<div class="toolbar">
-
-<div class="search-box">
-<input type="text" placeholder="Cari website atau username...">
-</div>
-
-<div class="filter">
-<button class="active">Semua</button>
-<button>Sosial</button>
-<button>Banking</button>
-<button>Coding</button>
-<button>Hosting</button>
-</div>
-
-</div>
-
-<div class="password-grid">
-
-<div class="password-card" onclick="openDetail()">
-
-<div class="card-top">
-<div class="site-icon">
-<i class="fab fa-facebook-f"></i>
-</div>
-<div class="category">Sosial</div>
-</div>
-
-<div class="site-name">Facebook</div>
-<div class="email">admin@gmail.com</div>
-<div class="password">••••••••••••</div>
-
-<div class="card-actions">
-<button class="action-btn">
-<i class="fas fa-eye"></i>
-</button>
-
-<button class="action-btn">
-<i class="fas fa-copy"></i>
-</button>
-</div>
-
-</div>
-
-<div class="password-card">
-
-<div class="card-top">
-<div class="site-icon">
-<i class="fab fa-github"></i>
-</div>
-
-<div class="category">Coding</div>
-</div>
-
-<div class="site-name">GitHub</div>
-<div class="email">developer@mail.com</div>
-<div class="password">••••••••••••</div>
-
-<div class="card-actions">
-<button class="action-btn">
-<i class="fas fa-eye"></i>
-</button>
-
-<button class="action-btn">
-<i class="fas fa-copy"></i>
-</button>
-</div>
-
-</div>
+<button class="edit" onclick="openEdit()">✏ Edit</button>
+<button class="delete" onclick="openDelete()">🗑 Hapus</button>
 
 </div>
 
 <!-- MODAL -->
-
 <div class="modal" id="modal">
+<div class="box">
 
-<div class="modal-content">
+<h3>Data Password</h3>
 
-<h2>Tambah Password</h2>
+<input id="fWebsite" placeholder="Website">
+<input id="fUsername" placeholder="Username">
+<input id="fPassword" placeholder="Password">
+<textarea id="fNotes" placeholder="Notes"></textarea>
 
-<div class="form-group">
-<label>Website</label>
-<input type="text">
-</div>
-
-<div class="form-group">
-<label>Username / Email</label>
-<input type="text">
-</div>
-
-<div class="form-group">
-<label>Password</label>
-<input type="password">
-</div>
-
-<div class="form-group">
-<label>Kategori</label>
-<select>
-<option>Sosial</option>
-<option>Coding</option>
-<option>Hosting</option>
-</select>
-</div>
-
-<div class="form-group">
-<label>Catatan</label>
-<textarea rows="3"></textarea>
-</div>
-
-<div class="modal-footer">
-<button class="btn cancel" onclick="closeModal()">Batal</button>
-<button class="btn save">Simpan</button>
-</div>
+<button class="save" onclick="saveData()">Simpan</button>
 
 </div>
-
-</div>
-
-<!-- DETAIL PANEL -->
-
-<div class="detail-panel" id="detailPanel">
-
-<div class="detail-header">
-<h2>Facebook</h2>
-<i class="fas fa-times" onclick="closeDetail()" style="cursor:pointer"></i>
-</div>
-
-<div class="detail-section">
-<label>Email</label>
-<div class="detail-value">
-admin@gmail.com
-</div>
-</div>
-
-<div class="detail-section">
-<label>Password</label>
-<div class="detail-value">
-Rahasia123
-</div>
-</div>
-
-<div class="detail-section">
-<label>Kategori</label>
-<div class="detail-value">
-Sosial Media
-</div>
-</div>
-
-<div class="detail-actions">
-<button class="edit-btn">Edit</button>
-<button class="delete-btn">Hapus</button>
-</div>
-
 </div>
 
 <script>
 
-function openModal(){
-document.getElementById('modal').classList.add('active');
+const GAS = "https://script.google.com/macros/s/AKfycbzHcqSyk0jwF6WbxKVXKlwBGnyayfRFrZjNT040hNNYRuR9bSbQP1424ze-Ozsj0NiA/exec";
+
+let DATA = [];
+let SELECTED = null;
+let showPass = false;
+
+/* LOAD */
+document.addEventListener("DOMContentLoaded", load);
+
+async function load(){
+
+document.getElementById("loading").style.display="block";
+
+const res = await fetch(GAS+"?action=getPasswords");
+const json = await res.json();
+
+DATA = json.data;
+
+document.getElementById("loading").style.display="none";
+
+render();
+updateStats();
+
 }
 
-function closeModal(){
-document.getElementById('modal').classList.remove('active');
+/* RENDER */
+function render(){
+
+const g = document.getElementById("grid");
+g.innerHTML="";
+
+DATA.forEach(d=>{
+
+g.innerHTML += `
+<div class="card">
+<div>
+<div class="name">${d.website}</div>
+<div class="email">${d.username}</div>
+<div class="pass">******</div>
+</div>
+
+<div class="actions">
+<button onclick='copyPass("${d.password}")'>📋</button>
+<button onclick='openSlider(${JSON.stringify(d)})'>👁</button>
+</div>
+</div>
+`;
+
+});
+
 }
 
-function openDetail(){
-document.getElementById('detailPanel').classList.add('active');
+/* STATS */
+function updateStats(){
+
+document.getElementById("totalPw").innerText = DATA.length;
+
+document.getElementById("totalCat").innerText =
+new Set(DATA.map(x=>x.category_id)).size;
+
+const last = [...DATA].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))[0];
+
+document.getElementById("lastAdd").innerText = last?.website || "-";
+
 }
 
-function closeDetail(){
-document.getElementById('detailPanel').classList.remove('active');
+/* COPY CARD */
+function copyPass(t){
+navigator.clipboard.writeText(t);
+toast("Copied ✔");
+}
+
+/* COPY SLIDER PASSWORD */
+function copySliderPass(){
+navigator.clipboard.writeText(SELECTED.password);
+toast("Password copied ✔");
+}
+
+/* TOAST */
+function toast(t){
+const el=document.getElementById("toast");
+el.innerText=t;
+el.classList.add("show");
+
+setTimeout(()=>el.classList.remove("show"),2000);
+}
+
+/* SLIDER */
+function openSlider(d){
+
+SELECTED=d;
+
+document.getElementById("sTitle").innerText=d.website;
+document.getElementById("sUser").innerText=d.username;
+document.getElementById("sPass").innerText="******";
+document.getElementById("sNotes").innerText=d.notes||"-";
+
+document.getElementById("slider").classList.add("show");
+document.getElementById("overlay").classList.add("show");
+
+showPass=false;
+
+}
+
+function closeSlider(){
+document.getElementById("slider").classList.remove("show");
+document.getElementById("overlay").classList.remove("show");
+}
+
+/* TOGGLE PASS */
+function togglePass(){
+showPass=!showPass;
+document.getElementById("sPass").innerText =
+showPass ? SELECTED.password : "******";
+}
+
+/* ADD */
+function openAdd(){
+document.getElementById("modal").classList.add("show");
+}
+
+/* EDIT */
+function openEdit(){
+document.getElementById("modal").classList.add("show");
+
+document.getElementById("fWebsite").value=SELECTED.website;
+document.getElementById("fUsername").value=SELECTED.username;
+document.getElementById("fPassword").value=SELECTED.password;
+document.getElementById("fNotes").value=SELECTED.notes||"";
+}
+
+/* SAVE */
+async function saveData(){
+
+await fetch(GAS,{
+method:"POST",
+body:JSON.stringify({
+action:"updatePassword",
+id:SELECTED?.id,
+website:fWebsite.value,
+username:fUsername.value,
+password:fPassword.value,
+notes:fNotes.value
+})
+});
+
+document.getElementById("modal").classList.remove("show");
+load();
+
+}
+
+/* DELETE (placeholder) */
+function openDelete(){
+toast("Delete siap di GAS next step");
 }
 
 </script>
