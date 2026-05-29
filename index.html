@@ -201,16 +201,12 @@
 
       try {
 
-        const res = await fetch(GAS_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            id,
-            password
-          })
-        });
+      const url =
+      GAS_URL +
+      "?id=" + encodeURIComponent(id) +
+      "&password=" + encodeURIComponent(password);
+
+      const res = await fetch(url);
 
         const result = await res.json();
 
