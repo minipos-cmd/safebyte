@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Password Manager</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+background:#071327;
+color:white;
+padding:30px;
+}
+
+/* HEADER */
+
+.page-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.page-title h1{
+font-size:32px;
+margin-bottom:5px;
+}
+
+.page-title p{
+color:#8da2c0;
+}
+
+.add-btn{
+background:#2563eb;
+border:none;
+color:white;
+padding:12px 22px;
+border-radius:12px;
+cursor:pointer;
+font-size:15px;
+transition:.3s;
+}
+
+.add-btn:hover{
+background:#1d4ed8;
+}
+
+/* STATS */
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:18px;
+margin-bottom:25px;
+}
+
+.stat-card{
+background:#16233f;
+padding:22px;
+border-radius:18px;
+}
+
+.stat-card i{
+font-size:28px;
+color:#60a5fa;
+margin-bottom:12px;
+}
+
+.stat-card h2{
+font-size:28px;
+}
+
+.stat-card span{
+color:#8da2c0;
+}
+
+/* SEARCH */
+
+.toolbar{
+display:flex;
+gap:15px;
+margin-bottom:20px;
+flex-wrap:wrap;
+}
+
+.search-box{
+flex:1;
+}
+
+.search-box input{
+width:100%;
+padding:14px;
+background:#16233f;
+border:none;
+outline:none;
+border-radius:12px;
+color:white;
+}
+
+.filter{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.filter button{
+padding:12px 16px;
+border:none;
+border-radius:10px;
+background:#16233f;
+color:white;
+cursor:pointer;
+}
+
+.filter button.active{
+background:#2563eb;
+}
+
+/* PASSWORD GRID */
+
+.password-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+gap:20px;
+}
+
+.password-card{
+background:#16233f;
+border-radius:18px;
+padding:20px;
+transition:.3s;
+cursor:pointer;
+border:1px solid transparent;
+}
+
+.password-card:hover{
+transform:translateY(-5px);
+border-color:#2563eb;
+}
+
+.card-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+}
+
+.site-icon{
+width:45px;
+height:45px;
+border-radius:12px;
+background:#223353;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:20px;
+}
+
+.category{
+font-size:12px;
+background:#223353;
+padding:5px 10px;
+border-radius:20px;
+color:#8da2c0;
+}
+
+.site-name{
+font-size:18px;
+font-weight:600;
+margin-bottom:5px;
+}
+
+.email{
+color:#8da2c0;
+font-size:14px;
+margin-bottom:15px;
+}
+
+.password{
+letter-spacing:3px;
+margin-bottom:20px;
+}
+
+.card-actions{
+display:flex;
+gap:10px;
+}
+
+.action-btn{
+flex:1;
+padding:10px;
+border:none;
+border-radius:10px;
+background:#223353;
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+.action-btn:hover{
+background:#2f4670;
+}
+
+/* MODAL */
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.6);
+display:none;
+justify-content:center;
+align-items:center;
+backdrop-filter:blur(4px);
+}
+
+.modal.active{
+display:flex;
+animation:fade .3s ease;
+}
+
+.modal-content{
+width:500px;
+background:#16233f;
+padding:25px;
+border-radius:20px;
+animation:popup .3s ease;
+}
+
+.modal-content h2{
+margin-bottom:20px;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+.form-group label{
+display:block;
+margin-bottom:8px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+width:100%;
+padding:13px;
+background:#223353;
+border:none;
+border-radius:10px;
+color:white;
+}
+
+.modal-footer{
+display:flex;
+justify-content:flex-end;
+gap:10px;
+margin-top:20px;
+}
+
+.btn{
+padding:12px 18px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.cancel{
+background:#475569;
+color:white;
+}
+
+.save{
+background:#2563eb;
+color:white;
+}
+
+/* DETAIL PANEL */
+
+.detail-panel{
+position:fixed;
+top:0;
+right:-420px;
+width:400px;
+height:100%;
+background:#16233f;
+padding:25px;
+transition:.35s;
+z-index:99;
+}
+
+.detail-panel.active{
+right:0;
+}
+
+.detail-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+.detail-section{
+margin-bottom:20px;
+}
+
+.detail-section label{
+display:block;
+color:#8da2c0;
+margin-bottom:5px;
+}
+
+.detail-value{
+background:#223353;
+padding:12px;
+border-radius:10px;
+}
+
+.detail-actions{
+display:flex;
+gap:10px;
+margin-top:25px;
+}
+
+.edit-btn{
+flex:1;
+background:#22c55e;
+color:white;
+border:none;
+padding:12px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.delete-btn{
+flex:1;
+background:#ef4444;
+color:white;
+border:none;
+padding:12px;
+border-radius:10px;
+cursor:pointer;
+}
+
+@keyframes popup{
+from{
+transform:scale(.8);
+opacity:0;
+}
+to{
+transform:scale(1);
+opacity:1;
+}
+}
+
+@keyframes fade{
+from{opacity:0;}
+to{opacity:1;}
+}
+
+</style>
+</head>
+<body>
+
+<div class="page-header">
+
+<div class="page-title">
+<h1>🔐 Password Manager</h1>
+<p>Simpan akun dan password penting dengan aman</p>
+</div>
+
+<button class="add-btn" onclick="openModal()">
+<i class="fas fa-plus"></i>
+Tambah Password
+</button>
+
+</div>
+
+<div class="stats">
+
+<div class="stat-card">
+<i class="fas fa-lock"></i>
+<h2>128</h2>
+<span>Total Password</span>
+</div>
+
+<div class="stat-card">
+<i class="fas fa-folder"></i>
+<h2>8</h2>
+<span>Kategori</span>
+</div>
+
+<div class="stat-card">
+<i class="fas fa-clock"></i>
+<h2>2 Hari</h2>
+<span>Terakhir Ditambah</span>
+</div>
+
+</div>
+
+<div class="toolbar">
+
+<div class="search-box">
+<input type="text" placeholder="Cari website atau username...">
+</div>
+
+<div class="filter">
+<button class="active">Semua</button>
+<button>Sosial</button>
+<button>Banking</button>
+<button>Coding</button>
+<button>Hosting</button>
+</div>
+
+</div>
+
+<div class="password-grid">
+
+<div class="password-card" onclick="openDetail()">
+
+<div class="card-top">
+<div class="site-icon">
+<i class="fab fa-facebook-f"></i>
+</div>
+<div class="category">Sosial</div>
+</div>
+
+<div class="site-name">Facebook</div>
+<div class="email">admin@gmail.com</div>
+<div class="password">••••••••••••</div>
+
+<div class="card-actions">
+<button class="action-btn">
+<i class="fas fa-eye"></i>
+</button>
+
+<button class="action-btn">
+<i class="fas fa-copy"></i>
+</button>
+</div>
+
+</div>
+
+<div class="password-card">
+
+<div class="card-top">
+<div class="site-icon">
+<i class="fab fa-github"></i>
+</div>
+
+<div class="category">Coding</div>
+</div>
+
+<div class="site-name">GitHub</div>
+<div class="email">developer@mail.com</div>
+<div class="password">••••••••••••</div>
+
+<div class="card-actions">
+<button class="action-btn">
+<i class="fas fa-eye"></i>
+</button>
+
+<button class="action-btn">
+<i class="fas fa-copy"></i>
+</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-content">
+
+<h2>Tambah Password</h2>
+
+<div class="form-group">
+<label>Website</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Username / Email</label>
+<input type="text">
+</div>
+
+<div class="form-group">
+<label>Password</label>
+<input type="password">
+</div>
+
+<div class="form-group">
+<label>Kategori</label>
+<select>
+<option>Sosial</option>
+<option>Coding</option>
+<option>Hosting</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Catatan</label>
+<textarea rows="3"></textarea>
+</div>
+
+<div class="modal-footer">
+<button class="btn cancel" onclick="closeModal()">Batal</button>
+<button class="btn save">Simpan</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- DETAIL PANEL -->
+
+<div class="detail-panel" id="detailPanel">
+
+<div class="detail-header">
+<h2>Facebook</h2>
+<i class="fas fa-times" onclick="closeDetail()" style="cursor:pointer"></i>
+</div>
+
+<div class="detail-section">
+<label>Email</label>
+<div class="detail-value">
+admin@gmail.com
+</div>
+</div>
+
+<div class="detail-section">
+<label>Password</label>
+<div class="detail-value">
+Rahasia123
+</div>
+</div>
+
+<div class="detail-section">
+<label>Kategori</label>
+<div class="detail-value">
+Sosial Media
+</div>
+</div>
+
+<div class="detail-actions">
+<button class="edit-btn">Edit</button>
+<button class="delete-btn">Hapus</button>
+</div>
+
+</div>
+
+<script>
+
+function openModal(){
+document.getElementById('modal').classList.add('active');
+}
+
+function closeModal(){
+document.getElementById('modal').classList.remove('active');
+}
+
+function openDetail(){
+document.getElementById('detailPanel').classList.add('active');
+}
+
+function closeDetail(){
+document.getElementById('detailPanel').classList.remove('active');
+}
+
+</script>
+
+</body>
+</html>
